@@ -28,7 +28,7 @@ function ShowHome() {
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-4">Listen to Shows</h2>
+      <h2 className="mb-4">Listen Now</h2>
 
       <div>
   <label>Sort by:</label>

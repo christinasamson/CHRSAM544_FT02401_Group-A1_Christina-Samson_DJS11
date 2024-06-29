@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import './ShowHome.css';
+
 
 function ShowHome() {
   const [shows, setShows] = useState([]);
+  const [sortOrder, setSortOrder] = useState('A-Z');
 
   useEffect(() => {
     fetch('https://podcast-api.netlify.app')
@@ -18,11 +19,37 @@ function ShowHome() {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
+  const sortedShows = [...shows].sort((a, b) => (
+    sortOrder === 'A-Z' ? a.title.localeCompare(b.title) :
+    sortOrder === 'Z-A' ? b.title.localeCompare(a.title) :
+    sortOrder === 'Recent' ? new Date(b.updated) - new Date(a.updated) :
+    new Date(a.updated) - new Date(b.updated)
+  ));
+
   return (
     <div className="container mt-4">
       <h2 className="mb-4">Listen to Shows</h2>
+
+      <div>
+  <label>Sort by:</label>
+  <div>
+    <button className={`btn ${sortOrder === 'A-Z' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setSortOrder('A-Z')}>
+      Title: A-Z
+    </button>
+    <button className={`btn ${sortOrder === 'Z-A' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setSortOrder('Z-A')}>
+      Title: Z-A
+    </button>
+    <button className={`btn ${sortOrder === 'Recent' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setSortOrder('Recent')}>
+      Most Recently Updated
+    </button>
+    <button className={`btn ${sortOrder === 'Oldest' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setSortOrder('Oldest')}>
+      Oldest Updated
+    </button>
+  </div>
+</div>
+
       <div className="row">
-        {shows.map(show => (
+        {sortedShows.map(show => (
           <div className="col-md-4 mb-4" key={show.id}>
             <div className="card bg-dark text-light">
               <div className="card-body">

@@ -13,6 +13,11 @@ function ShowHome() {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
+  const ChangeDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
   return (
     <div className="container mt-4">
       <h2 className="mb-4">Listen to Shows</h2>
@@ -23,9 +28,9 @@ function ShowHome() {
               <div className="card-body">
                 <img style={{width:'200px', height:'300px'}}  src={show.image}/>
                 <h5 className="card-title">{show.title}</h5>
-                <p className="card-text">{show.description}</p>
-                <p className="card-text">Updated: {new Date(show.updated).toLocaleDateString()}</p>
-                <p className="card-text">Seasons: {show.seasons.length}</p>
+                <p className="card-text">{show.description.substring(0,80)}</p>
+                <p className="card-text">Updated: {ChangeDate(show.updated)}</p>
+                <p className="card-text">Seasons: {show.seasons}</p>
                 <Link to={`/showdetails/${show.id}`} className="btn btn-success">
                   View Show
                 </Link>

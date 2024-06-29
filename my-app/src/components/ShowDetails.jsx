@@ -62,9 +62,10 @@ function ShowDetails() {
           <p className="card-text">Total Seasons: {totalSeasons}</p>
           <h6 className="card-subtitle mb-2">Seasons</h6>
           {show.seasons.map(season => (
-            <div key={season.season} className="mb-3">
+            <div key={season.season} className="mb-3 d-flex gap-5 flex-column justify-content-center align-items-start">
+              <img style={{width:"200px", height:"300px" }} src={season.image}/>
               <button
-                className="btn btn-outline-success"
+                className="btn btn-outline-success "
                 type="button"
                 onClick={() => handleSeasonClick(season.season)}
                 aria-expanded={season.season === openSeasonId}

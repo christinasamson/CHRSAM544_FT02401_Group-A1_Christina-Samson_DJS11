@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -32,18 +32,6 @@ function ShowHome() {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  const sortedShows = [...shows].sort((a, b) => (
-    sortOrder === 'A-Z' ? a.title.localeCompare(b.title) :
-    sortOrder === 'Z-A' ? b.title.localeCompare(a.title) :
-    sortOrder === 'Recent' ? new Date(b.updated) - new Date(a.updated) :
-    new Date(a.updated) - new Date(b.updated)
-  ));
-
-  const filteredShows = sortedShows.filter(show => (
-    show.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    (selectedGenre ? show.genres.includes(parseInt(selectedGenre)) : true)
-  ));
-
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -52,47 +40,67 @@ function ShowHome() {
     setSelectedGenre(event.target.value);
   };
 
+  const sortShows = (shows) => {
+    return [...shows].sort((a, b) => {
+      switch (sortOrder) {
+        case 'A-Z':
+          return a.title.localeCompare(b.title);
+        case 'Z-A':
+          return b.title.localeCompare(a.title);
+        case 'Recent':
+          return new Date(b.updated) - new Date(a.updated);
+        case 'Oldest':
+          return new Date(a.updated) - new Date(b.updated);
+        default:
+          return 0;
+      }
+    });
+  };
+
+  const filteredShows = sortShows(shows.filter(show =>
+    show.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+    (selectedGenre ? show.genres.includes(parseInt(selectedGenre)) : true)
+  ));
+
+  const handleSortChange = (event) => {
+    setSortOrder(event.target.value);
+  };
+
   return (
     <div className="container mt-4">
       <h2 className="mb-4">Listen Now</h2>
 
-      <div>
-        <label>Sort by:</label>
-        <div>
-          <button className={`btn ${sortOrder === 'A-Z' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setSortOrder('A-Z')}>
-            Title: A-Z
-          </button>
-          <button className={`btn ${sortOrder === 'Z-A' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setSortOrder('Z-A')}>
-            Title: Z-A
-          </button>
-          <button className={`btn ${sortOrder === 'Recent' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setSortOrder('Recent')}>
-            Most Recently Updated
-          </button>
-          <button className={`btn ${sortOrder === 'Oldest' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setSortOrder('Oldest')}>
-            Oldest Updated
-          </button>
+      <div className="row mb-4">
+        <div className="col-md-4">
+          <label className="me-2">Sort by:</label>
+          <select value={sortOrder} onChange={handleSortChange} className="form-select">
+            <option value="A-Z">Title: A-Z</option>
+            <option value="Z-A">Title: Z-A</option>
+            <option value="Recent">Most Recently Updated</option>
+            <option value="Oldest">Oldest Updated</option>
+          </select>
         </div>
-      </div>
 
-      <div className="mb-4">
-        <label>Search</label>
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={handleSearchChange}
-          className="form-control"
-          placeholder="What do you want to listen to?"
-        />
-      </div>
+        <div className="col-md-4">
+          <label className="me-2">Search:</label>
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="form-control"
+            placeholder="What do you want to listen to?"
+          />
+        </div>
 
-      <div className="mb-4">
-        <label>Filter by Genre</label>
-        <select value={selectedGenre} onChange={handleGenreChange} className="form-control">
-          <option value="">All Genres</option>
-          {Object.entries(GENRE_TITLES).map(([id, title]) => (
-            <option key={id} value={id}>{title}</option>
-          ))}
-        </select>
+        <div className="col-md-4">
+          <label className="me-2">Filter by Genre:</label>
+          <select value={selectedGenre} onChange={handleGenreChange} className="form-select">
+            <option value="">All Genres</option>
+            {Object.entries(GENRE_TITLES).map(([id, title]) => (
+              <option key={id} value={id}>{title}</option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div className="row">

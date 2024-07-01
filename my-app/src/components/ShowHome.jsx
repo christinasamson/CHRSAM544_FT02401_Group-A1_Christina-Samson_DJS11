@@ -2,10 +2,23 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+const GENRE_TITLES = {
+  1: "Personal Growth",
+  2: "Investigative Journalism",
+  3: "History",
+  4: "Comedy",
+  5: "Entertainment",
+  6: "Business",
+  7: "Fiction",
+  8: "News",
+  9: "Kids and Family"
+};
+
 function ShowHome() {
   const [shows, setShows] = useState([]);
   const [sortOrder, setSortOrder] = useState('A-Z');
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState('');
 
   useEffect(() => {
     fetch('https://podcast-api.netlify.app')
@@ -27,11 +40,16 @@ function ShowHome() {
   ));
 
   const filteredShows = sortedShows.filter(show => (
-    show.title.toLowerCase().includes(searchTerm.toLowerCase())
+    show.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+    (selectedGenre ? show.genres.includes(parseInt(selectedGenre)) : true)
   ));
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+  };
+
+  const handleGenreChange = (event) => {
+    setSelectedGenre(event.target.value);
   };
 
   return (
@@ -65,6 +83,16 @@ function ShowHome() {
           className="form-control"
           placeholder="What do you want to listen to?"
         />
+      </div>
+
+      <div className="mb-4">
+        <label>Filter by Genre</label>
+        <select value={selectedGenre} onChange={handleGenreChange} className="form-control">
+          <option value="">All Genres</option>
+          {Object.entries(GENRE_TITLES).map(([id, title]) => (
+            <option key={id} value={id}>{title}</option>
+          ))}
+        </select>
       </div>
 
       <div className="row">

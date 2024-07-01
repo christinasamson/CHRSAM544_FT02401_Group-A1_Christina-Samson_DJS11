@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import PodcastCarousel from "./Carousel";
+
 
 const GENRE_TITLES = {
   1: "Personal Growth",
@@ -68,6 +70,7 @@ function ShowHome() {
 
   return (
     <div className="container mt-4">
+      <PodcastCarousel/>
       <h2 className="mb-4">Listen Now</h2>
 
       <div className="row mb-4">

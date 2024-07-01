@@ -2,15 +2,23 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function ShowDetails() {
-  const { id } = useParams();
-  const [show, setShow] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [openSeasonId, setOpenSeasonId] = useState(null);
-  const [favorites, setFavorites] = useState([]);
-  const navigate = useNavigate();
+/**
+ * Renders the details page for a specific podcast show.
+ * Displays show information, seasons, and episodes with options
+ * to favorite episodes and navigate back to the home page.*/
 
+function ShowDetails() {
+  const { id } = useParams(); // Retrieves the show ID from the URL params
+  const [show, setShow] = useState(null); // State to store the show details
+  const [loading, setLoading] = useState(true); // State to manage loading state
+  const [error, setError] = useState(null); // State to manage error state
+  const [openSeasonId, setOpenSeasonId] = useState(null); // State to manage open season ID
+  const [favorites, setFavorites] = useState([]); // State to manage favorite episodes
+  const navigate = useNavigate(); // Navigation utility from React Router
+
+/**
+   * Effect hook to fetch show details from the API based on the show ID.
+   */
   useEffect(() => {
     fetch(`https://podcast-api.netlify.app/id/${id}`)
       .then(response => {
@@ -30,15 +38,27 @@ function ShowDetails() {
       });
   }, [id]);
 
+  /**
+   * Effect hook to load stored favorite episodes from local storage on component mount.
+   */
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
     setFavorites(storedFavorites);
   }, []);
 
+  /**
+   * Handles the click event for expanding/collapsing a season's episodes.
+   * The ID of the season to expand or collapse.
+   */
   const handleSeasonClick = (seasonId) => {
     setOpenSeasonId(seasonId === openSeasonId ? null : seasonId);
   };
 
+   /**
+   * Toggles the favorite status of an episode.
+   * Adds or removes the episode from the favorites list in local storage.
+   * The episode object to favorite/unfavorite.
+   */
   const handleFavoriteToggle = (episode) => {
     const isFavorited = favorites.some(fav => fav.id === episode.id);
     let updatedFavorites;
@@ -59,9 +79,18 @@ function ShowDetails() {
     localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
   };
 
+  /**
+   * Checks if an episode is favorited.
+   *  Returns true if the episode is favorited, otherwise false.
+   */
   const isEpisodeFavorited = (episodeId) => {
     return favorites.some(fav => fav.id === episodeId);
   };
+
+  /**
+   * Retrieves the date when an episode was favorited.
+   *Returns the favorite date in string format or null if not favorited.
+   */
 
   const getFavoriteDate = (episodeId) => {
     const favorite = favorites.find(fav => fav.id === episodeId);
@@ -77,6 +106,9 @@ function ShowDetails() {
     navigate('/'); // Navigate back to the homepage
   };
 
+  /**
+   * Renders the component UI based on loading, error, or loaded state.
+   */
   if (loading) {
     return <div>Loading...</div>;
   }

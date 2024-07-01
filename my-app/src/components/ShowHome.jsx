@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PodcastCarousel from "./Carousel";
 
-
+//Mapping of genre IDs to their respective titles.
+ 
 const GENRE_TITLES = {
   1: "Personal Growth",
   2: "Investigative Journalism",
@@ -16,11 +17,14 @@ const GENRE_TITLES = {
   9: "Kids and Family"
 };
 
+
+ // Generate the home page with a list of shows based on search and sort criteria.
+ 
 function ShowHome() {
-  const [shows, setShows] = useState([]);
-  const [sortOrder, setSortOrder] = useState('A-Z');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedGenre, setSelectedGenre] = useState('');
+  const [shows, setShows] = useState([]); // State to store the list of shows
+  const [sortOrder, setSortOrder] = useState('A-Z'); // State to sorting order
+  const [searchTerm, setSearchTerm] = useState(''); //State for search term
+  const [selectedGenre, setSelectedGenre] = useState(''); //state for selected genre
 
   useEffect(() => {
     fetch('https://podcast-api.netlify.app')
@@ -29,19 +33,22 @@ function ShowHome() {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
+//Function to format date strings into a human-readable format.
   const ChangeDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
-
+//Event handler for updating search term state.
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
+//Event handler for updating selected genre state.
   const handleGenreChange = (event) => {
     setSelectedGenre(event.target.value);
   };
 
+  //Function to sort shows based on selected sort order.
   const sortShows = (shows) => {
     return [...shows].sort((a, b) => {
       switch (sortOrder) {
@@ -58,16 +65,17 @@ function ShowHome() {
       }
     });
   };
-
+//Array of filtered shows based on search term and selected genre.
   const filteredShows = sortShows(shows.filter(show =>
     show.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
     (selectedGenre ? show.genres.includes(parseInt(selectedGenre)) : true)
   ));
 
+  //Event handler for updating sort order state.
   const handleSortChange = (event) => {
     setSortOrder(event.target.value);
   };
-
+//Renders the main UI component .
   return (
     <div className="container mt-4">
       <PodcastCarousel/>

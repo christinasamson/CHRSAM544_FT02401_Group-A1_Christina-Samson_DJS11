@@ -2,31 +2,50 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+/**
+ * Favorites component displays a list of favorite items.
+ * Allows sorting by date or alphabetically, and provides
+ * options to remove items and view associated shows.
+ */
 function Favorites() {
+  // State to store favorite items and sorting order
   const [favorites, setFavorites] = useState([]);
   const [sortOrder, setSortOrder] = useState("date");
   const navigate = useNavigate();
 
+  /**
+   * Effect to load favorites from localStorage on component mount.
+   */
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
     setFavorites(storedFavorites);
   }, []);
 
+  /**
+   * Effect to update localStorage when favorites change.
+   */
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
+  /**
+   * Handles removal of a favorite item by ID.
+   */
   const handleRemoveFavorite = (id) => {
     setFavorites(favorites.filter(favorite => favorite.id !== id));
   };
 
+  /**
+   * Sorts favorites array based on sortOrder.
+   */
   const sortedFavorites = [...favorites].sort((a, b) => {
     if (sortOrder === "date") {
-      return new Date(b.date) - new Date(a.date);
+      return new Date(b.date) - new Date(a.date);// Sort by date descending
     }
-    return a.title.localeCompare(b.title);
+    return a.title.localeCompare(b.title); // Sort alphabetically by title
   });
 
+  // Render favorites list with sorting options
   return (
     <div className="container mt-4">
       <h2 className="mb-4">Favorites</h2>

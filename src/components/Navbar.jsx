@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 function Navbar() {
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-brown">
             <div className="container-fluid">
                 <Link className="navbar-brand" to="/">
                     <img src="/favicon-32x32.png" alt="Logo" style={{ width: '32px', marginRight: '8px' }} />
@@ -17,7 +17,7 @@ function Navbar() {
                             <Link className="nav-link" to="/">Home</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/favorites">Favorites</Link>
+                            <Link className="nav-link" to="/favorites">Favourites</Link>
                         </li>
                     </ul>
                 </div>

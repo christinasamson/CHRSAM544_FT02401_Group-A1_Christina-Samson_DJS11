@@ -124,7 +124,7 @@ function ShowHome() {
                 <p className="card-text">{show.description.substring(0, 80)}</p>
                 <p className="card-text">Updated: {ChangeDate(show.updated)}</p>
                 <p className="card-text">Seasons: {show.seasons}</p>
-                <Link to={`/showdetails/${show.id}`} className="btn btn-success">
+                <Link to={`/showdetails/${show.id}`} className="btn ">
                   View Show
                 </Link>
               </div>

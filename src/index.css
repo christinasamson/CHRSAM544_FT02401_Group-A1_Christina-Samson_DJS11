@@ -1,0 +1,38 @@
+:root{
+    --background-colour: #212331;
+    --complementary-colour: #B29DC3;
+    --card-colour: #4A396C;
+    --text-colour: #BFBDBE;
+}
+
+body {
+    background-color: var(--background-colour);
+    color: var(--text-colour);
+}
+
+.navbar{
+    background-color: var(--card-colour);
+}
+
+.card-body{
+    background-color:var(--card-colour);
+}
+.carousel-container{
+    background-color: var(--complementary-colour);
+}
+
+.btn{
+    background-color: var(--complementary-colour);
+}
+.btn:hover{
+    background-color: var(--background-colour);
+
+}
+
+.episode-card{
+    background-color: var(--complementary-colour);
+}
+.btn-listen{
+    background-color: var(--card-colour);
+    color: var(--text-colour);
+}

@@ -119,7 +119,7 @@ function ShowDetails() {
 
   return (
     <div className="container mt-4">
-      <button className="btn btn-link" onClick={handleBackToHome}>Back to Home</button>
+      <button className=" btn-listen btn btn-link " onClick={handleBackToHome}>Back to Home</button>
       <h2 className="mb-4">{show.title}</h2>
       <div className="card bg-dark text-light mb-4">
         <div className="card-body">
@@ -147,8 +147,8 @@ function ShowDetails() {
                   ) : (
                     <div>
                       {season.episodes.map(episode => (
-                        <div key={episode.id} className="card bg-secondary text-light mb-2">
-                          <div className="card-body">
+                        <div key={episode.id} className=" card bg-secondary text-light mb-2">
+                          <div className="card-body episode-card">
                             <h6 className="card-title">{episode.title}</h6>
                             <p className="card-text">{episode.description}</p>
                             <audio controls>
@@ -156,20 +156,20 @@ function ShowDetails() {
                     </audio>
                             <p className="card-text">Duration: {episode.duration} minutes</p>
                             <button
-                              className="btn btn-success"
+                              className="btn-listen btn mx-2"
                               onClick={() => console.log(`Play episode ${episode.id}`)}
                             >
                               Listen Now
                             </button>
                             <button
-                              className={`btn ${isEpisodeFavorited(episode.id) ? 'btn-danger' : 'btn-success'}`}
+                              className={`btn ${isEpisodeFavorited(episode.id) ? 'btn-listen' : 'btn-listen'}`}
                               onClick={() => handleFavoriteToggle(episode)}
                             >
-                              {isEpisodeFavorited(episode.id) ? 'Unfavorite' : 'Favorite'}
+                              {isEpisodeFavorited(episode.id) ? 'Unfavourite' : 'Favourite'}
                             </button>
                             {isEpisodeFavorited(episode.id) && (
                               <p className="card-text mt-2">
-                                Favorited on: {formatDate(getFavoriteDate(episode.id))}
+                                Favourited on: {formatDate(getFavoriteDate(episode.id))}
                               </p>
                             )}
                           </div>

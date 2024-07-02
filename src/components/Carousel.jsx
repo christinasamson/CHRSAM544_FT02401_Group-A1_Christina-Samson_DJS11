@@ -75,8 +75,8 @@ const PodcastCarousel = () => {
    * Renders the carousel of podcasts.
    */
   return (
-    <div className="w-100 h-100 bg-white text-white py-5">
-      <div className="container">
+    <div className="w-100 h-100 bg-white text-white ">
+      <div className="carousel-container">
         <Slider {...settings}>
           {/* Map over the podcasts array and render a carousel item for each podcast */}
           {podcasts.map((podcast) => (

@@ -151,6 +151,9 @@ function ShowDetails() {
                           <div className="card-body">
                             <h6 className="card-title">{episode.title}</h6>
                             <p className="card-text">{episode.description}</p>
+                            <audio controls>
+                      <source src={episode.file} type="audio/mp3" /> 
+                    </audio>
                             <p className="card-text">Duration: {episode.duration} minutes</p>
                             <button
                               className="btn btn-success"

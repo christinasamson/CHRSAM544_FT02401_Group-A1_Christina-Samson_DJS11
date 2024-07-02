@@ -9,20 +9,18 @@ Sort podcasts alphabetically or by most recently updated
 View detailed information about each podcast, including seasons and episodes
 Favorite episodes and manage your favorite list
 
-
-Technologies Used
+Technologies Utilised
 React
 React Router
 Bootstrap
 CSS for custom theming
 Fetch API for data retrieval
 
-Usage
+How to Use
 Upon starting the application, you will be presented with a carousel of featured podcasts. Use the search bar to find specific shows or filter by genre using the dropdown menu. You can sort the podcast list alphabetically or by the most recent updates.
-Click on any podcast card to view detailed information about the show, including its seasons and episodes. You can favorite episodes by clicking the "Favorite" button. Access your favorite episodes from the "Favorites" page.
+Click on any podcast card to view detailed information about the show, including its seasons and episodes. You can favorite episodes by clicking the "Favourites" button. Access your favorite episodes from the "Favourites" page.
 
 For any questions, suggestions, or issues, please contact:
-
 Name: Christina Samson
 Email: chsamson.codes@gmail.com
 GitHub: christinasamson

@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PodcastCarousel from "./Carousel";
 
-//Mapping of genre IDs to their respective titles.
- 
+// Mapping of genre IDs to their respective titles.
 const GENRE_TITLES = {
   1: "Personal Growth",
   2: "Investigative Journalism",
@@ -17,14 +16,12 @@ const GENRE_TITLES = {
   9: "Kids and Family"
 };
 
-
- // Generate the home page with a list of shows based on search and sort criteria.
- 
+// Generate the home page with a list of shows based on search and sort criteria.
 function ShowHome() {
   const [shows, setShows] = useState([]); // State to store the list of shows
   const [sortOrder, setSortOrder] = useState('A-Z'); // State to sorting order
-  const [searchTerm, setSearchTerm] = useState(''); //State for search term
-  const [selectedGenre, setSelectedGenre] = useState(''); //state for selected genre
+  const [searchTerm, setSearchTerm] = useState(''); // State for search term
+  const [selectedGenre, setSelectedGenre] = useState(''); // State for selected genre
 
   useEffect(() => {
     fetch('https://podcast-api.netlify.app')
@@ -33,22 +30,23 @@ function ShowHome() {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
-//Function to format date strings into a human-readable format.
+  // Function to format date strings into a human-readable format.
   const ChangeDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
-//Event handler for updating search term state.
+
+  // Event handler for updating search term state.
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-//Event handler for updating selected genre state.
+  // Event handler for updating selected genre state.
   const handleGenreChange = (event) => {
     setSelectedGenre(event.target.value);
   };
 
-  //Function to sort shows based on selected sort order.
+  // Function to sort shows based on selected sort order.
   const sortShows = (shows) => {
     return [...shows].sort((a, b) => {
       switch (sortOrder) {
@@ -65,34 +63,26 @@ function ShowHome() {
       }
     });
   };
-//Array of filtered shows based on search term and selected genre.
+
+  // Array of filtered shows based on search term and selected genre.
   const filteredShows = sortShows(shows.filter(show =>
     show.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
     (selectedGenre ? show.genres.includes(parseInt(selectedGenre)) : true)
   ));
 
-  //Event handler for updating sort order state.
+  // Event handler for updating sort order state.
   const handleSortChange = (event) => {
     setSortOrder(event.target.value);
   };
-//Renders the main UI component .
+
+  // Renders the main UI component.
   return (
     <div className="container mt-4">
       <PodcastCarousel/>
       <h2 className="mb-4">Listen Now</h2>
 
       <div className="row mb-4">
-        <div className="col-md-4">
-          <label className="me-2">Sort by:</label>
-          <select value={sortOrder} onChange={handleSortChange} className="form-select">
-            <option value="A-Z">Title: A-Z</option>
-            <option value="Z-A">Title: Z-A</option>
-            <option value="Recent">Most Recently Updated</option>
-            <option value="Oldest">Oldest Updated</option>
-          </select>
-        </div>
-
-        <div className="col-md-4">
+        <div className="col-md-12 mb-3">
           <label className="me-2">Search:</label>
           <input
             type="text"
@@ -103,7 +93,17 @@ function ShowHome() {
           />
         </div>
 
-        <div className="col-md-4">
+        <div className="col-md-6">
+          <label className="me-2">Sort by:</label>
+          <select value={sortOrder} onChange={handleSortChange} className="form-select">
+            <option value="A-Z">Title: A-Z</option>
+            <option value="Z-A">Title: Z-A</option>
+            <option value="Recent">Most Recently Updated</option>
+            <option value="Oldest">Oldest Updated</option>
+          </select>
+        </div>
+
+        <div className="col-md-6">
           <label className="me-2">Filter by Genre:</label>
           <select value={selectedGenre} onChange={handleGenreChange} className="form-select">
             <option value="">All Genres</option>
